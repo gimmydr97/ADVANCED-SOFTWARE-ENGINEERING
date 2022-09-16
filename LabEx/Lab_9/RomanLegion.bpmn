@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0fqhet1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.4.0">
+  <bpmn:process id="RomanLegions" name="Roman Legion" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_11mnena</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_11mnena" sourceRef="StartEvent_1" targetRef="Activity_1jhpqdl" />
+    <bpmn:userTask id="Activity_1jhpqdl" name="Prepare Roman Legions for Battle">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="numberOfTribes" label="How many tribe are there?" type="long" defaultValue="10" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_11mnena</bpmn:incoming>
+      <bpmn:outgoing>Flow_18ygvok</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_18ygvok" sourceRef="Activity_1jhpqdl" targetRef="Gateway_1m05itu" />
+    <bpmn:parallelGateway id="Gateway_1m05itu">
+      <bpmn:incoming>Flow_18ygvok</bpmn:incoming>
+      <bpmn:outgoing>Flow_0nrken8</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1jjpwl6</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:sequenceFlow id="Flow_0nrken8" sourceRef="Gateway_1m05itu" targetRef="Activity_0ltpzgz" />
+    <bpmn:serviceTask id="Activity_0ltpzgz" name="Fight against Germanic Tribe" camunda:type="external" camunda:topic="FightTribe">
+      <bpmn:incoming>Flow_0nrken8</bpmn:incoming>
+      <bpmn:outgoing>Flow_1bpqup2</bpmn:outgoing>
+      <bpmn:multiInstanceLoopCharacteristics>
+        <bpmn:loopCardinality xsi:type="bpmn:tFormalExpression">#{numberOfTribes}</bpmn:loopCardinality>
+      </bpmn:multiInstanceLoopCharacteristics>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_1jjpwl6" sourceRef="Gateway_1m05itu" targetRef="Event_0930pkz" />
+    <bpmn:intermediateCatchEvent id="Event_0930pkz" name="Legion is Defeated">
+      <bpmn:incoming>Flow_1jjpwl6</bpmn:incoming>
+      <bpmn:outgoing>Flow_103yfva</bpmn:outgoing>
+      <bpmn:conditionalEventDefinition id="ConditionalEventDefinition_1ayl0jc">
+        <bpmn:condition xsi:type="bpmn:tFormalExpression">#{legionStatus == 'defeated'}</bpmn:condition>
+      </bpmn:conditionalEventDefinition>
+    </bpmn:intermediateCatchEvent>
+    <bpmn:sequenceFlow id="Flow_103yfva" sourceRef="Event_0930pkz" targetRef="Event_0ljt3xs" />
+    <bpmn:endEvent id="Event_0ljt3xs">
+      <bpmn:incoming>Flow_103yfva</bpmn:incoming>
+      <bpmn:terminateEventDefinition id="TerminateEventDefinition_0dil7jf" />
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1bpqup2" sourceRef="Activity_0ltpzgz" targetRef="Event_0508380" />
+    <bpmn:endEvent id="Event_0508380">
+      <bpmn:incoming>Flow_1bpqup2</bpmn:incoming>
+      <bpmn:terminateEventDefinition id="TerminateEventDefinition_16hpcv4" />
+    </bpmn:endEvent>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="RomanLegions">
+      <bpmndi:BPMNEdge id="Flow_11mnena_di" bpmnElement="Flow_11mnena">
+        <di:waypoint x="215" y="237" />
+        <di:waypoint x="250" y="237" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_18ygvok_di" bpmnElement="Flow_18ygvok">
+        <di:waypoint x="350" y="237" />
+        <di:waypoint x="385" y="237" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0nrken8_di" bpmnElement="Flow_0nrken8">
+        <di:waypoint x="435" y="237" />
+        <di:waypoint x="470" y="237" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1jjpwl6_di" bpmnElement="Flow_1jjpwl6">
+        <di:waypoint x="410" y="212" />
+        <di:waypoint x="410" y="100" />
+        <di:waypoint x="462" y="100" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_103yfva_di" bpmnElement="Flow_103yfva">
+        <di:waypoint x="498" y="100" />
+        <di:waypoint x="532" y="100" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1bpqup2_di" bpmnElement="Flow_1bpqup2">
+        <di:waypoint x="570" y="237" />
+        <di:waypoint x="612" y="237" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="219" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_08a2ujz_di" bpmnElement="Activity_1jhpqdl">
+        <dc:Bounds x="250" y="197" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_01sx5lq_di" bpmnElement="Gateway_1m05itu">
+        <dc:Bounds x="385" y="212" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_14fvrtb_di" bpmnElement="Activity_0ltpzgz">
+        <dc:Bounds x="470" y="197" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_047kzzu_di" bpmnElement="Event_0930pkz">
+        <dc:Bounds x="462" y="82" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="458" y="125" width="45" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1obsxbf_di" bpmnElement="Event_0ljt3xs">
+        <dc:Bounds x="532" y="82" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1df70wz_di" bpmnElement="Event_0508380">
+        <dc:Bounds x="612" y="219" width="36" height="36" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
